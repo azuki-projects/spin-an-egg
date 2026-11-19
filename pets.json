@@ -1,0 +1,8 @@
+[
+ {"name":"Chicken","rarity":"Common","baseWeight":1,"baseMoneyPerSecond":1,"chance":45},
+ {"name":"Duck","rarity":"Common","baseWeight":1.2,"baseMoneyPerSecond":2,"chance":30},
+ {"name":"Golden Egg","rarity":"Rare","baseWeight":2.5,"baseMoneyPerSecond":8,"chance":15},
+ {"name":"Dragon Egg","rarity":"Epic","baseWeight":5,"baseMoneyPerSecond":25,"chance":7},
+ {"name":"Cosmic Egg","rarity":"Legendary","baseWeight":10,"baseMoneyPerSecond":100,"chance":2.5},
+ {"name":"Void Egg","rarity":"Mythic","baseWeight":25,"baseMoneyPerSecond":500,"chance":0.5}
+]
