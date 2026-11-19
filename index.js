@@ -1,8 +1,11 @@
 const express=require("express"),path=require("path"),settings=require("./setting.json");
 const db=require("./handlers/database"),commands=require("./handlers/commandHandler"),bot=require("./handlers/bot"),webhook=require("./handlers/webhook");
-const app=express();app.use(express.json());app.get("/",(_,r)=>r.sendFile(path.join(__dirname,"index.html")));
+const app=express();app.use(express.json({limit:"20kb"}));app.get("/",(_,r)=>r.sendFile(path.join(__dirname,"index.html")));
 app.get("/health",(_,r)=>r.json({ok:true,database:db.ready,commands:commands.commands.size}));
 app.get("/webhook",webhook.verify);app.post("/webhook",webhook.receive);
+function auth(q,r,next){if(q.headers.authorization!=="Bearer "+settings.adminPassword)return r.sendStatus(401);next()}
 app.post("/admin/login",(q,r)=>r.status(q.body.username===settings.adminUsername&&q.body.password===settings.adminPassword?200:401).json({ok:q.body.username===settings.adminUsername&&q.body.password===settings.adminPassword,token:settings.adminPassword}));
-app.get("/admin/data",(q,r)=>{if(q.headers.authorization!=="Bearer "+settings.adminPassword)return r.sendStatus(401);r.json({status:db.ready?"connected":"offline",commands:[...commands.commands.values()].map(c=>c.meta),pets:require("./pets.json"),mutations:require("./mutations.json"),webhook:q.protocol+"://"+q.get("host")+"/webhook",uptime:process.uptime()})});
+app.get("/admin/data",auth,async(q,r)=>{r.json({status:db.ready?"connected":"offline",commands:[...commands.commands.values()].map(c=>c.meta),pets:require("./pets.json"),mutations:require("./mutations.json"),admins:await db.getAdmins(),webhook:q.protocol+"://"+q.get("host")+"/webhook",uptime:process.uptime()})});
+app.post("/admin/admins",auth,async(q,r)=>{const id=String(q.body.id||"").trim();if(!/^\d{5,30}$/.test(id))return r.status(400).json({error:"Enter a valid numeric Facebook ID."});if(!db.ready)return r.status(503).json({error:"MongoDB is offline; admin changes cannot be saved."});try{const added=await db.addAdmin(id);r.json({ok:true,added,admins:await db.getAdmins()})}catch(e){r.status(500).json({error:e.message})}});
+app.delete("/admin/admins/:id",auth,async(q,r)=>{const id=String(q.params.id);if(!/^\d{5,30}$/.test(id))return r.status(400).json({error:"Invalid Facebook ID."});if(!db.ready)return r.status(503).json({error:"MongoDB is offline."});try{const admins=await db.removeAdmin(id);r.json({ok:true,admins})}catch(e){r.status(500).json({error:e.message})}});
 (async()=>{await db.connect();commands.load();bot.setHandler(commands);const port=process.env.PORT||settings.port;app.listen(port,"0.0.0.0",()=>console.log("Spin an Egg listening on "+port))})().catch(e=>{console.error(e);process.exit(1)});
