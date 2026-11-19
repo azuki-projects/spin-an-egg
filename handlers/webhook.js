@@ -1,0 +1,2 @@
+const s=require("../setting.json"),bot=require("./bot");
+module.exports={verify(q,r){if(q.query["hub.mode"]==="subscribe"&&q.query["hub.verify_token"]===s.verifyToken)return r.status(200).send(q.query["hub.challenge"]);r.sendStatus(403)},receive(q,r){if(q.body?.object!=="page")return r.sendStatus(404);r.status(200).send("EVENT_RECEIVED");for(const entry of q.body.entry||[])for(const e of entry.messaging||[])bot.onMessage(e).catch(console.error)}};
