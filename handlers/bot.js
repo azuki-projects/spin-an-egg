@@ -1,0 +1,3 @@
+const s=require("../setting.json");let handler;
+async function sendText(id,text){if(!s.pageAccessToken||s.pageAccessToken.startsWith("INPUT_")){console.log("[Messenger test]",id,text);return}const url="https://graph.facebook.com/"+(s.graphApiVersion||"v22.0")+"/me/messages?access_token="+encodeURIComponent(s.pageAccessToken);const r=await fetch(url,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({recipient:{id},message:{text:String(text).slice(0,2000)}})});const d=await r.json();if(!r.ok)console.error("FB API",d)}
+module.exports={sendText,setHandler(h){handler=h},async onMessage(e){if(e.sender?.id&&e.message?.text&&handler)await handler.execute(e.sender.id,e.message.text)}};
