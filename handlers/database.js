@@ -1,0 +1,4 @@
+const mongoose=require("mongoose"),s=require("../setting.json");
+const schema=new mongoose.Schema({fbId:{type:String,unique:true},username:{type:String,unique:true,sparse:true,lowercase:true},money:{type:Number,default:0},lastAccrued:{type:Date,default:Date.now},pets:{type:Array,default:[]},equipped:{type:Array,default:[]},upgrades:{type:Object,default:{}},banned:{type:Boolean,default:false},banReason:String},{timestamps:true});
+const User=mongoose.model("EggUser",schema,"users");
+module.exports={User,ready:false,async connect(){if(!s.mongoUri||s.mongoUri.startsWith("INPUT_")){console.warn("Configure mongoUri in setting.json");return}await mongoose.connect(s.mongoUri,{dbName:s.mongoDatabase||"spin_an_egg"});this.ready=true;console.log("MongoDB connected; users collection auto-created on first write.")}};
