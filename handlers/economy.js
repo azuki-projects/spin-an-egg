@@ -1,0 +1,6 @@
+const db=require("./database"),catalog=require("../pets.json"),mutations=require("../mutations.json"),crypto=require("crypto");
+const fmt=n=>Math.floor(Number(n)||0).toLocaleString("en-US"),income=p=>(p.baseMoneyPerSecond||0)*(p.weight||1)*(p.mutationMultiplier||1);
+async function accrue(u){const now=Date.now(),last=new Date(u.lastAccrued||now).getTime(),secs=Math.min(86400,Math.max(0,(now-last)/1000)),rate=u.pets.filter(p=>u.equipped.includes(p.id)).reduce((s,p)=>s+income(p),0);if(secs){u.money+=rate*secs;u.lastAccrued=new Date(now);await u.save()}return rate}
+function makePet(c,w,owner){return{id:crypto.randomBytes(5).toString("hex"),name:c.name,rarity:c.rarity,weight:Number(w||c.baseWeight),baseWeight:c.baseWeight,baseMoneyPerSecond:c.baseMoneyPerSecond,mutation:"None",mutationMultiplier:1,favorite:false,owner}}
+function roll(u){const luck=1+(u.upgrades.luck||0)*.15,rarityLevel=u.upgrades.rarity||0;const pool=catalog.map(p=>({...p,chance:p.chance*(p.rarity==="Common"?1:luck**(["Rare","Epic","Legendary","Mythic"].indexOf(p.rarity)+1+rarityLevel*.1))}));let n=Math.random()*pool.reduce((s,p)=>s+p.chance,0);for(const p of pool){n-=p.chance;if(n<=0)return p}return pool[0]}
+module.exports={fmt,income,accrue,makePet,roll,mutations,find:username=>db.User.findOne({username:String(username).toLowerCase()})};
