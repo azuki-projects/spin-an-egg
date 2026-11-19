@@ -1,0 +1,12 @@
+{
+ "pageAccessToken":"INPUT_FACEBOOK_PAGE_ACCESS_TOKEN",
+ "verifyToken":"INPUT_WEBHOOK_VERIFY_TOKEN",
+ "adminUsername":"admin",
+ "adminPassword":"CHANGE_ME",
+ "mongoUri":"INPUT_MONGODB_ATLAS_URI",
+ "mongoDatabase":"spin_an_egg",
+ "port":3000,
+ "prefix":"",
+ "graphApiVersion":"v22.0",
+ "admins":[]
+}
