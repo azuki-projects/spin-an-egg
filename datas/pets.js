@@ -1,0 +1,1 @@
+const db=require("../handlers/database");module.exports={add:async(user,pet)=>{user.pets.push(pet);await user.save();return pet},get:(user,id)=>user.pets.find(p=>p.id===id),remove:async(user,id)=>{user.pets=user.pets.filter(p=>p.id!==id);user.equipped=user.equipped.filter(x=>x!==id);await user.save()}};
