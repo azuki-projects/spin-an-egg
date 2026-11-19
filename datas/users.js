@@ -1,0 +1,1 @@
+const User=require("../handlers/database").User;module.exports={byId:id=>User.findOne({fbId:id}),byName:name=>User.findOne({username:String(name).toLowerCase()})};
