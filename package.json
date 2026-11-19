@@ -1,0 +1,1 @@
+{"name":"spin-an-egg","version":"1.0.0","main":"index.js","scripts":{"start":"node index.js"},"dependencies":{"express":"^4.21.2","mongoose":"^8.9.5"},"engines":{"node":">=18"}}
