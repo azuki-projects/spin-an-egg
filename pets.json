@@ -1,8 +1,210 @@
 [
- {"name":"Chicken","rarity":"Common","baseWeight":1,"baseMoneyPerSecond":1,"chance":45},
- {"name":"Duck","rarity":"Common","baseWeight":1.2,"baseMoneyPerSecond":2,"chance":30},
- {"name":"Golden Egg","rarity":"Rare","baseWeight":2.5,"baseMoneyPerSecond":8,"chance":15},
- {"name":"Dragon Egg","rarity":"Epic","baseWeight":5,"baseMoneyPerSecond":25,"chance":7},
- {"name":"Cosmic Egg","rarity":"Legendary","baseWeight":10,"baseMoneyPerSecond":100,"chance":2.5},
- {"name":"Void Egg","rarity":"Mythic","baseWeight":25,"baseMoneyPerSecond":500,"chance":0.5}
+  {
+    "name": "Chicken",
+    "rarity": "Common",
+    "minWeight": 0.55,
+    "maxWeight": 2.2,
+    "baseMoneyPerSecond": 1,
+    "chance": 30
+  },
+  {
+    "name": "Duck",
+    "rarity": "Common",
+    "minWeight": 0.35,
+    "maxWeight": 2.8,
+    "baseMoneyPerSecond": 2,
+    "chance": 24
+  },
+  {
+    "name": "Pigeon",
+    "rarity": "Common",
+    "minWeight": 0.18,
+    "maxWeight": 0.65,
+    "baseMoneyPerSecond": 1,
+    "chance": 10
+  },
+  {
+    "name": "Rabbit",
+    "rarity": "Common",
+    "minWeight": 0.7,
+    "maxWeight": 3.2,
+    "baseMoneyPerSecond": 3,
+    "chance": 8
+  },
+  {
+    "name": "Hamster",
+    "rarity": "Common",
+    "minWeight": 0.06,
+    "maxWeight": 0.24,
+    "baseMoneyPerSecond": 2,
+    "chance": 3
+  },
+  {
+    "name": "Cat",
+    "rarity": "Uncommon",
+    "minWeight": 2.1,
+    "maxWeight": 6.5,
+    "baseMoneyPerSecond": 6,
+    "chance": 4
+  },
+  {
+    "name": "Dog",
+    "rarity": "Uncommon",
+    "minWeight": 4,
+    "maxWeight": 28,
+    "baseMoneyPerSecond": 8,
+    "chance": 5
+  },
+  {
+    "name": "Parrot",
+    "rarity": "Uncommon",
+    "minWeight": 0.25,
+    "maxWeight": 1.3,
+    "baseMoneyPerSecond": 10,
+    "chance": 4
+  },
+  {
+    "name": "Turtle",
+    "rarity": "Uncommon",
+    "minWeight": 0.3,
+    "maxWeight": 8,
+    "baseMoneyPerSecond": 9,
+    "chance": 2
+  },
+  {
+    "name": "Fox",
+    "rarity": "Uncommon",
+    "minWeight": 3,
+    "maxWeight": 10,
+    "baseMoneyPerSecond": 13,
+    "chance": 3
+  },
+  {
+    "name": "Golden Egg",
+    "rarity": "Rare",
+    "minWeight": 1.2,
+    "maxWeight": 4.8,
+    "baseMoneyPerSecond": 20,
+    "chance": 1.4
+  },
+  {
+    "name": "Penguin",
+    "rarity": "Rare",
+    "minWeight": 8,
+    "maxWeight": 32,
+    "baseMoneyPerSecond": 24,
+    "chance": 1.3
+  },
+  {
+    "name": "Owl",
+    "rarity": "Rare",
+    "minWeight": 0.6,
+    "maxWeight": 4.2,
+    "baseMoneyPerSecond": 30,
+    "chance": 1
+  },
+  {
+    "name": "Shark",
+    "rarity": "Rare",
+    "minWeight": 30,
+    "maxWeight": 240,
+    "baseMoneyPerSecond": 35,
+    "chance": 1
+  },
+  {
+    "name": "Deer",
+    "rarity": "Rare",
+    "minWeight": 20,
+    "maxWeight": 110,
+    "baseMoneyPerSecond": 40,
+    "chance": 0.8
+  },
+  {
+    "name": "Dragon Egg",
+    "rarity": "Epic",
+    "minWeight": 8,
+    "maxWeight": 55,
+    "baseMoneyPerSecond": 85,
+    "chance": 0.4
+  },
+  {
+    "name": "Phoenix",
+    "rarity": "Epic",
+    "minWeight": 2,
+    "maxWeight": 18,
+    "baseMoneyPerSecond": 110,
+    "chance": 0.3
+  },
+  {
+    "name": "Unicorn",
+    "rarity": "Epic",
+    "minWeight": 90,
+    "maxWeight": 420,
+    "baseMoneyPerSecond": 140,
+    "chance": 0.3
+  },
+  {
+    "name": "Griffin",
+    "rarity": "Epic",
+    "minWeight": 75,
+    "maxWeight": 520,
+    "baseMoneyPerSecond": 180,
+    "chance": 0.2
+  },
+  {
+    "name": "Cosmic Egg",
+    "rarity": "Legendary",
+    "minWeight": 20,
+    "maxWeight": 140,
+    "baseMoneyPerSecond": 450,
+    "chance": 0.1
+  },
+  {
+    "name": "Leviathan",
+    "rarity": "Legendary",
+    "minWeight": 500,
+    "maxWeight": 9000,
+    "baseMoneyPerSecond": 700,
+    "chance": 0.08
+  },
+  {
+    "name": "Titan",
+    "rarity": "Legendary",
+    "minWeight": 800,
+    "maxWeight": 12000,
+    "baseMoneyPerSecond": 900,
+    "chance": 0.07
+  },
+  {
+    "name": "Void Egg",
+    "rarity": "Mythic",
+    "minWeight": 100,
+    "maxWeight": 1600,
+    "baseMoneyPerSecond": 2500,
+    "chance": 0.015
+  },
+  {
+    "name": "Celestial",
+    "rarity": "Mythic",
+    "minWeight": 15,
+    "maxWeight": 1000,
+    "baseMoneyPerSecond": 3500,
+    "chance": 0.015
+  },
+  {
+    "name": "Galaxy Serpent",
+    "rarity": "Mythic",
+    "minWeight": 1500,
+    "maxWeight": 50000,
+    "baseMoneyPerSecond": 5000,
+    "chance": 0.01
+  },
+  {
+    "name": "???",
+    "rarity": "Secret",
+    "minWeight": 0.01,
+    "maxWeight": 99999,
+    "baseMoneyPerSecond": 25000,
+    "chance": 0.01
+  }
 ]
