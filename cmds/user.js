@@ -1,7 +1,9 @@
 const db=require("../handlers/database");
 const eco=require("../handlers/economy");
 const noti=require("../handlers/notifications");
-const =require("../handlers/commandUtils");
+const db=require("../handlers/database");
+const eco=require("../handlers/economy");
+const noti=require("../handlers/notifications");
 
 const ACTIONS=["setbalance","reset","ban","unban","adminadd","adminrem"];
 module.exports={
