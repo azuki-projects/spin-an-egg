@@ -1,0 +1,2 @@
+const eco=require("../handlers/economy");
+module.exports={meta:{name:"reset",description:"Reset a player's wallet and active challenge.",usage:"reset <username>",permission:"admin",category:"Admin"},async run({id,u,args,bot}){const target=await eco.get(args[0]);if(!target)return bot.sendText(id,"Player not found.");target.money=1000;target.mathChallenge=null;await target.save();bot.sendText(target.fbId,"[NOTIFICATION] Admin @"+u.username+" reset your wallet to 1,000 coins.");bot.sendText(id,"Reset @"+target.username+" to 1,000 coins.")}};
