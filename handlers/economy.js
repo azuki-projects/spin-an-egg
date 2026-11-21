@@ -1,8 +1,6 @@
-const db=require("./database"),catalog=require("../pets.json"),mutations=require("../mutations.json"),crypto=require("crypto");
-const fmt=n=>Math.floor(Number(n)||0).toLocaleString("en-US"),income=p=>(p.baseMoneyPerSecond||0)*(p.weight||1)*(p.mutationMultiplier||1);
-async function accrue(u){const now=Date.now(),last=new Date(u.lastAccrued||now).getTime(),secs=Math.min(86400,Math.max(0,(now-last)/1000)),rate=u.pets.filter(p=>u.equipped.includes(p.id)).reduce((s,p)=>s+income(p),0);if(secs){u.money+=rate*secs;u.lastAccrued=new Date(now);await u.save()}return rate}
-function randomWeight(c){const min=Number(c.minWeight??c.baseWeight??1),max=Number(c.maxWeight??c.baseWeight??min);return min+Math.random()*(Math.max(min,max)-min)}
-function makePet(c,w,owner){return{id:crypto.randomBytes(5).toString("hex"),name:c.name,rarity:c.rarity,weight:Number(w??randomWeight(c)),baseWeight:c.baseWeight??((Number(c.minWeight||1)+Number(c.maxWeight||c.minWeight||1))/2),baseMoneyPerSecond:c.baseMoneyPerSecond,mutation:"None",mutationMultiplier:1,favorite:false,owner}}
-function getOdds(u){const luck=Math.max(0,Number(u.upgrades.luck)||0),rarity=Math.max(0,Number(u.upgrades.rarity)||0);const tiers={Common:0,Uncommon:1,Rare:2,Epic:3,Legendary:4,Mythic:5,Secret:6};const pool=catalog.map(p=>{const tier=tiers[p.rarity]||0,boost=1+(Math.min(50,luck)*.015+Math.min(50,rarity)*.025)*tier;return {...p,rollWeight:p.chance*boost}});const total=pool.reduce((sum,p)=>sum+p.rollWeight,0);return pool.map(p=>({...p,odds:total?p.rollWeight/total*100:0}))}
-function roll(u){const pool=getOdds(u);let ticket=Math.random()*pool.reduce((sum,p)=>sum+p.rollWeight,0);for(const p of pool){ticket-=p.rollWeight;if(ticket<0)return p}return pool[pool.length-1]}
-module.exports={fmt,income,accrue,makePet,randomWeight,roll,getOdds,mutations,find:username=>db.User.findOne({username:String(username).toLowerCase()})};
+const db=require("./database");
+const SUFFIXES=[["k",1e3],["m",1e6],["b",1e9],["t",1e12],["qa",1e15],["qi",1e18],["sx",1e21],["sp",1e24],["oc",1e27],["no",1e30],["dc",1e33]];
+function parseAmount(v){if(typeof v==="number")return v;const x=String(v||"").trim().replace(/,/g,"").toLowerCase();const m=x.match(/^([+-]?(?:\d+\.?\d*|\.\d+))\s*([a-z]+)?$/);if(!m)return NaN;const suffix=m[2]||"",scale=SUFFIXES.find(([s])=>s===suffix)?.[1]||(suffix===""?1:NaN);return Number(m[1])*scale}
+function fmt(n){n=Number(n)||0;if(Math.abs(n)<1e6)return Math.floor(n).toLocaleString("en-US");const units=[["dc",1e33],["no",1e30],["oc",1e27],["sp",1e24],["sx",1e21],["qi",1e18],["qa",1e15],["t",1e12],["b",1e9],["m",1e6],["k",1e3]];for(const [s,v] of units)if(Math.abs(n)>=v)return (n/v).toFixed(2).replace(/\.00$/,"").replace(/(\.\d)0$/,"$1")+s;return String(Math.floor(n))}
+function full(n){return Math.floor(Number(n)||0).toLocaleString("en-US")}
+module.exports={parseAmount,fmt,full,get:username=>db.findUsername(username)};
