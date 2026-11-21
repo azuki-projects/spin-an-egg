@@ -2,7 +2,7 @@ const eco=require("./economy");
 
 const WIDTH=34;
 function visibleLength(s){return Array.from(String(s)).length}
-function pad(s,n){s=String(s);return s+" ".repeat(Math.max(0,n-visibleLength(s))}
+function pad(s,n){s=String(s);return s+" ".repeat(Math.max(0,n-visibleLength(s)))}
 function wrap(text,width){
  const lines=[];
  for(const raw of String(text??"").split("\n")){
