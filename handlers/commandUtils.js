@@ -14,7 +14,9 @@ function wrap(text,width){
    else{lines.push(line);line=word}
   }
   while(visibleLength(line)>width){
-   const chars=Array.from(line);lines.push(chars.slice(0,width).join(""));line=chars.slice(width).join("");
+   const chars=Array.from(line);
+   lines.push(chars.slice(0,width).join(""));
+   line=chars.slice(width).join("");
   }
   lines.push(line);
  }
