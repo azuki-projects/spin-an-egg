@@ -1,0 +1,3 @@
+const eco=require("../handlers/economy");
+const COOLDOWN=24*60*60*1000;
+module.exports={meta:{name:"daily",aliases:["spin","dailyspin"],description:"Spin for a random daily coin reward.",usage:"daily",permission:"all",category:"Economy"},async run({id,u,bot}){const now=Date.now(),last=u.lastDaily?new Date(u.lastDaily).getTime():0,remaining=last+COOLDOWN-now;if(remaining>0){const h=Math.floor(remaining/3600000),m=Math.floor((remaining%3600000)/60000);return bot.sendText(id,"Daily spin already claimed.\nCome back in "+h+"h "+m+"m.")}const reward=Math.floor(Math.random()*9901)+100;u.money+=reward;u.lastDaily=new Date(now);await u.save();bot.sendText(id,"🎁 DAILY SPIN\n\nYou won: +"+eco.fmt(reward)+" coins\nBalance: "+eco.fmt(u.money)+" coins\n\nCome back in 24 hours!")}};
