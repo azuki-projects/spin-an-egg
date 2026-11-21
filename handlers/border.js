@@ -1,35 +1,101 @@
-// Compact Messenger formatter. Change WIDTH here to resize every command box.
-const WIDTH=10;
-const INNER=WIDTH-4;
-function length(s){return Array.from(String(s)).length}
-function splitLong(word){
- const chars=Array.from(word),parts=[];
- while(chars.length)parts.push(chars.splice(0,INNER).join(""));
- return parts;
+// =========================
+// EASY BORDER CUSTOMIZATION
+// =========================
+
+// Overall message width (including outer border).
+const WIDTH = 26;
+
+// OUTER border characters: edit these to change the box shape.
+const OUTER = {
+  topLeft: "┌",
+  topRight: "┐",
+  bottomLeft: "└",
+  bottomRight: "┘",
+  horizontal: "─"
+};
+
+// INNER border characters: edit these to change the sides/padding.
+const INNER = {
+  left: "│",
+  right: "│",
+  leftPadding: " ",
+  rightPadding: " "
+};
+
+// =========================
+// Formatter (leave this part)
+// =========================
+
+const CONTENT_WIDTH = WIDTH - 2 - Array.from(INNER.leftPadding).length - Array.from(INNER.rightPadding).length;
+
+function length(text) {
+  return Array.from(String(text)).length;
 }
-function wrapLine(text){
- const out=[];let line="";
- for(const word of String(text).split(/\s+/)){
-  if(length(word)>INNER){
-   if(line){out.push(line);line=""}
-   out.push(...splitLong(word));continue;
+
+function wrap(text) {
+  const output = [];
+  let line = "";
+
+  for (const word of String(text).split(/\\s+/)) {
+    if (length(word) > CONTENT_WIDTH) {
+      if (line) {
+        output.push(line);
+        line = "";
+      }
+
+      let chars = Array.from(word);
+      while (chars.length) {
+        output.push(chars.splice(0, CONTENT_WIDTH).join(""));
+      }
+      continue;
+    }
+
+    if (!line) line = word;
+    else if (length(line) + 1 + length(word) <= CONTENT_WIDTH) line += " " + word;
+    else {
+      output.push(line);
+      line = word;
+    }
   }
-  if(!line)line=word;
-  else if(length(line)+1+length(word)<=INNER)line+=" "+word;
-  else{out.push(line);line=word}
- }
- if(line)out.push(line);
- return out;
+
+  if (line) output.push(line);
+  return output;
 }
-function border(title,body){
- let t=String(title||"").toUpperCase();
- if(length(t)>WIDTH-5)t=Array.from(t).slice(0,WIDTH-5).join("");
- const top="┌─ "+t+" "+"─".repeat(Math.max(0,WIDTH-5-length(t)))+"┐";
- const lines=[];
- for(const row of String(body??"").split("\n")){
-  if(row===""){lines.push("");continue}
-  lines.push(...wrapLine(row));
- }
- return [top,...lines.map(line=>"│ "+line.padEnd(INNER," ")+" │"),"└"+"─".repeat(WIDTH-2)+"┘"].join("\n");
+
+function border(title, body) {
+  const titleText = String(title || "").toUpperCase();
+  const topText = " " + titleText + " ";
+  const topFill = Math.max(0, WIDTH - 2 - length(topText));
+
+  const top =
+    OUTER.topLeft +
+    topText +
+    OUTER.horizontal.repeat(topFill) +
+    OUTER.topRight;
+
+  const contentLines = [];
+  for (const originalLine of String(body ?? "").split("\\n")) {
+    if (originalLine === "") {
+      contentLines.push("");
+    } else {
+      contentLines.push(...wrap(originalLine));
+    }
+  }
+
+  const content = contentLines.map(line =>
+    INNER.left +
+    INNER.leftPadding +
+    line.padEnd(CONTENT_WIDTH, " ") +
+    INNER.rightPadding +
+    INNER.right
+  );
+
+  const bottom =
+    OUTER.bottomLeft +
+    OUTER.horizontal.repeat(WIDTH - 2) +
+    OUTER.bottomRight;
+
+  return [top, ...content, bottom].join("\\n");
 }
-module.exports=border;
+
+module.exports = border;
