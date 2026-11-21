@@ -1,0 +1,2 @@
+const {border,eco}=require("../handlers/commandUtils");
+module.exports={meta:{name:"profile",description:"Show username, PSID, role and wallet balance.",usage:"profile",permission:"all",category:"Account"},async run({id,u,isAdmin,bot}){bot.sendText(id,border("PLAYER PROFILE","Username: @"+u.username+"\nPSID: "+id+"\nRole: "+(isAdmin?"Administrator":"Member")+"\nBalance: "+eco.fmt(u.money)+" coins\nExact balance: "+eco.full(u.money)))}};
