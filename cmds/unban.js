@@ -1,0 +1,2 @@
+const eco=require("../handlers/economy"),noti=require("../handlers/notifications");
+module.exports={meta:{name:"unban",description:"Remove a player's ban.",usage:"unban <username>",permission:"admin",category:"Admin"},async run({id,args,bot}){const target=await eco.get(args[0]);if(!target)return bot.sendText(id,"Player not found.");target.banned=false;target.banReason="";await target.save();noti.unban(target.fbId);bot.sendText(id,"Unbanned @"+target.username)}};
