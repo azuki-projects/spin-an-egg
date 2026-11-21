@@ -2,7 +2,7 @@ const eco=require("./economy");
 
 const WIDTH=34;
 function visibleLength(s){return Array.from(String(s)).length}
-function pad(s,n){s=String(s);return s+" ".repeat(Math.max(0,n-visibleLength(s)))}
+function pad(s,n){s=String(s);return s+" ".repeat(Math.max(0,n-visibleLength(s))}
 function wrap(text,width){
  const lines=[];
  for(const raw of String(text??"").split("\n")){
@@ -14,16 +14,17 @@ function wrap(text,width){
    else{lines.push(line);line=word}
   }
   while(visibleLength(line)>width){
-   lines.push(Array.from(line).slice(0,width).join(""));
-   line=Array.from(line).slice(width).join("");
+   const chars=Array.from(line);lines.push(chars.slice(0,width).join(""));line=chars.slice(width).join("");
   }
   lines.push(line);
  }
  return lines;
 }
 function border(title,body){
- const width=WIDTH,inner=width-2,titleText=" "+String(title||"").toUpperCase()+" ";
- const top="┌"+titleText+"─".repeat(Math.max(0,width-1-visibleLength(titleText)))+"┐";
+ const width=WIDTH,inner=width-2;
+ let titleText=" "+String(title||"").toUpperCase()+" ";
+ if(visibleLength(titleText)>width-2)titleText=Array.from(titleText).slice(0,width-2).join("");
+ const top="┌"+titleText+"─".repeat(Math.max(0,width-2-visibleLength(titleText)))+"┐";
  const content=wrap(body,inner);
  return [top,...content.map(line=>"│"+pad(line,inner)+"│"),"└"+"─".repeat(width-2)+"┘"].join("\n");
 }
