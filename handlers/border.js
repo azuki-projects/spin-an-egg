@@ -1,5 +1,5 @@
 // Compact Messenger formatter. Change WIDTH here to resize every command box.
-const WIDTH=15;
+const WIDTH=10;
 const INNER=WIDTH-4;
 function length(s){return Array.from(String(s)).length}
 function splitLong(word){
