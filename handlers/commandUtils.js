@@ -14,20 +14,18 @@ function wrap(text,width){
    else{lines.push(line);line=word}
   }
   while(visibleLength(line)>width){
-   const chars=Array.from(line);
-   lines.push(chars.slice(0,width).join(""));
-   line=chars.slice(width).join("");
+   const chars=Array.from(line);lines.push(chars.slice(0,width).join(""));line=chars.slice(width).join("");
   }
   lines.push(line);
  }
  return lines;
 }
 function border(title,body){
- const width=WIDTH,inner=width-2;
+ const width=WIDTH,inner=width-4;
  let titleText=" "+String(title||"").toUpperCase()+" ";
  if(visibleLength(titleText)>width-2)titleText=Array.from(titleText).slice(0,width-2).join("");
  const top="┌"+titleText+"─".repeat(Math.max(0,width-2-visibleLength(titleText)))+"┐";
  const content=wrap(body,inner);
- return [top,...content.map(line=>"│"+pad(line,inner)+"│"),"└"+"─".repeat(width-2)+"┘"].join("\n");
+ return [top,...content.map(line=>"│ "+pad(line,inner)+" │"),"└"+"─".repeat(width-2)+"┘"].join("\n");
 }
 module.exports={border,WIDTH,levels:{easy:2,normal:3,hard:5,"very hard":10,extreme:50,impossible:100},rnd(min,max){return Math.floor(Math.random()*(max-min+1))+min},eco};
