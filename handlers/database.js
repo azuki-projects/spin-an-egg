@@ -1,5 +1,5 @@
 const mongoose=require("mongoose"),s=require("../setting.json");
-const schema=new mongoose.Schema({fbId:{type:String,unique:true},username:{type:String,unique:true,sparse:true,lowercase:true},money:{type:Number,default:1000},lastUsernameChange:{type:Date,default:null},mathChallenge:{type:Object,default:null},banned:{type:Boolean,default:false},banReason:String},{timestamps:true});
+const schema=new mongoose.Schema({fbId:{type:String,unique:true},username:{type:String,unique:true,sparse:true,lowercase:true},money:{type:Number,default:1000},lastDaily:{type:Date,default:null},lastUsernameChange:{type:Date,default:null},mathChallenge:{type:Object,default:null},banned:{type:Boolean,default:false},banReason:String},{timestamps:true});
 const User=mongoose.model("EconomyUser",schema,"users");
 const configSchema=new mongoose.Schema({key:{type:String,unique:true},admins:{type:[String],default:[]}},{collection:"botsettings"});
 const BotConfig=mongoose.model("EconomyBotConfig",configSchema);
